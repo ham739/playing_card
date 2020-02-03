@@ -1,7 +1,15 @@
 import random
 import sys
 import re
-from itertools import groupby
+
+win_point = 0
+lose_point = 0
+draw_point = 0
+
+def check():
+
+    hand = []
+    main()
 
 def make_deck():
     """
@@ -38,13 +46,13 @@ def draw_from_deck(deck, hand, n=1):
 
     return hand
 
-def pat(cards,la=1):
+def pat(cards,card_hands=1):
     """
     点数を確定する
 
     input
         card:手札にある各カード
-        la:手札の枚数
+        card_hands:手札の枚数
     output
         total:手札に応じた点数
 
@@ -53,25 +61,25 @@ def pat(cards,la=1):
     total = 0
     A_count = 0
 
-    r = re.compile(".([\dJQKA]+)"* la)
-    g = r.match(cards).groups()
+    r = re.compile(".([\dJQKA]+)"* card_hands)
+    card_groups = r.match(cards).groups()
 
-    jf = list(g)
+    card_role = list(card_groups)
 
-    for s in jf:
+    for s in card_role:
 
         if s == "J" or s == "Q" or s == "K":
-            ds = s.replace("J","10").replace("Q","10").replace("K","10")
-            es = int(ds)
-            total = es + total
+            picture_card = s.replace("J","10").replace("Q","10").replace("K","10")
+            int_picture_card = int(picture_card)
+            total = int_picture_card + total
         elif s == "A":
-            ds = s.replace("A","11")
-            es = int(ds)
-            total = es + total
+            picture_card = s.replace("A","11")
+            int_picture_card = int(picture_card)
+            total = int_picture_card + total
             A_count += 1
         else:
-            es = int(s)
-            total = es + total
+            number = int(s)
+            total = number + total
 
 
     if total > 21 and A_count > 0 :
@@ -79,7 +87,6 @@ def pat(cards,la=1):
         for i in range(A_count):
 
             if total > 21:
-
                 total -= 10
 
     if total > 21:
@@ -156,6 +163,12 @@ def main():
             print("----------------------------------------------")
             print("|       プレイヤーはバーストしました         |")
             print("----------------------------------------------")
+
+            print("")
+            flag = input("もう一回遊びますか? [Yes/No]")
+            if flag.lower() in ["y", "yes"]:
+                check()
+
             sys.exit()
 
 
@@ -187,6 +200,11 @@ def main():
         print("----------------------------------------------")
         print("|       ディーラーはバーストしました         |")
         print("----------------------------------------------")
+
+        print("")
+        flag = input("もう一回遊びますか? [Yes/No]")
+        if flag.lower() in ["y", "yes"]:
+            check()
         sys.exit()
 
     print("")
@@ -198,6 +216,13 @@ def main():
     else:
         print("|       Drow            |")
     print("-------------------------")
+
+    print("")
+    flag = input("もう一回遊びますか? [Yes/No]")
+    if flag.lower() in ["y", "yes"]:
+        check()
+
+    print("終了")
 
 
 if __name__ == '__main__':

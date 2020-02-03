@@ -2,9 +2,6 @@ import random
 import sys
 import re
 
-win_point = 0
-lose_point = 0
-draw_point = 0
 
 def check():
 

@@ -3,6 +3,11 @@ import sys
 import re
 from itertools import groupby
 
+def check():
+
+    hand = []
+    main()
+
 def make_deck():
     """
     使うトランプを渡す
@@ -285,6 +290,13 @@ def main():
     else:
         print("|       Drow            |")
     print("-------------------------")
+
+    print("")
+    flag = input("もう一回遊びますか? [Yes/No]")
+    if flag.lower() in ["y", "yes"]:
+        check()
+
+    print("終了")
 
 
 
